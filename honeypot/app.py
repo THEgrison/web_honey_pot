@@ -219,6 +219,7 @@ def create_app():
                 session["dashboard_auth"] = True
                 return redirect(url_for("dashboard"))
             error = "Identifiants invalides"
+            return make_response(render_template("login.html", error=error), 401)
         return render_template("login.html", error=error)
 
     @app.route("/dashboard/logout")
@@ -453,6 +454,22 @@ def create_app():
     def healthz():
         return jsonify({"status": "ok"})
 
+    @app.route("/owner/mark")
+    def owner_mark():
+        token = (request.args.get("token") or "").strip()
+        expected = current_app.config.get("OWNER_COOKIE_TOKEN") or ""
+        if not expected or token != expected:
+            return make_response("forbidden", 403)
+        resp = make_response("ok")
+        resp.set_cookie(
+            current_app.config.get("OWNER_COOKIE_NAME", "hp_owner"),
+            expected,
+            max_age=60 * 60 * 24 * 365,
+            httponly=True,
+            samesite="Lax",
+        )
+        return resp
+
     return app
 
 
@@ -471,12 +488,16 @@ def _configure_logging(app):
 
 
 def _record_cap(name, value, metadata=None):
+    if _is_owner_request():
+        return
     ip_anon = anonymize_ip(request.headers.get("X-Forwarded-For", request.remote_addr or ""))
     key = make_visitor_key(ip_anon, request.user_agent.string)
     insert_capability_event(key, name, value, metadata)
 
 
 def _log_request(response):
+    if _is_owner_request():
+        return
     start = getattr(request, "_start_time", None)
     processing_ms = ((time.perf_counter() - start) * 1000.0) if start else None
 
@@ -515,6 +536,14 @@ def _log_request(response):
     removed = prune_request_logs(max_rows=current_app.config["MAX_DB_REQUEST_ROWS"])
     if removed:
         current_app.logger.warning("pruned old request rows: %s", removed)
+
+
+def _is_owner_request():
+    cookie_name = current_app.config.get("OWNER_COOKIE_NAME", "hp_owner")
+    token = current_app.config.get("OWNER_COOKIE_TOKEN") or ""
+    if not token:
+        return False
+    return request.cookies.get(cookie_name) == token
 
 
 def _extract_post_params():

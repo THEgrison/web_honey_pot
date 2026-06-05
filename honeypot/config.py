@@ -1,8 +1,17 @@
 import os
 from pathlib import Path
 
+try:
+    from dotenv import load_dotenv
+except ImportError:  # optional dependency
+    load_dotenv = None
+
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+if load_dotenv is not None:
+    load_dotenv(BASE_DIR / ".env", override=False)
 
 
 class Config:
@@ -66,3 +75,6 @@ class Config:
     ALERT_SPIKE_MULTIPLIER = float(os.environ.get("ALERT_SPIKE_MULTIPLIER", "2.5"))
     ALERT_MIN_BOT_HITS_PER_HOUR = int(os.environ.get("ALERT_MIN_BOT_HITS_PER_HOUR", "120"))
     ALERT_SUSPICIOUS_HITS_PER_HOUR = int(os.environ.get("ALERT_SUSPICIOUS_HITS_PER_HOUR", "25"))
+
+    OWNER_COOKIE_NAME = os.environ.get("OWNER_COOKIE_NAME", "hp_owner")
+    OWNER_COOKIE_TOKEN = os.environ.get("OWNER_COOKIE_TOKEN", "")

@@ -162,4 +162,37 @@
   <h2>Cartographie des parcours (graphe interactif)</h2>
   <svg id="path-graph" width="100%" height="460"></svg>
 </section>
+
+<section class="grid">
+  <article class="card">
+    <h2>Sessions (V3)</h2>
+    <pre id="sessions-summary">-</pre>
+  </article>
+  <article class="card">
+    <h2>KPI V3</h2>
+    <pre id="kpi-v3">-</pre>
+  </article>
+  <article class="card">
+    <h2>Drift</h2>
+    <pre id="drift">-</pre>
+  </article>
+  <article class="card">
+    <h2>Anomalies</h2>
+    <pre id="anomalies">-</pre>
+  </article>
+</section>
+
+<section class="toolbar">
+  <div class="btn-group">
+    <button id="run-alerts-btn" class="btn">Lancer alertes (webhook)</button>
+  </div>
+  <div class="btn-group">
+    <button id="export-ml-json" class="btn">Export ML JSON</button>
+    <button id="export-ml-csv" class="btn">Export ML CSV</button>
+  </div>
+  <div class="btn-group">
+    <button id="export-botips-json" class="btn">Export Bot-IPs JSON</button>
+    <button id="export-botips-csv" class="btn">Export Bot-IPs CSV</button>
+  </div>
+</section>
 {% endblock %}
