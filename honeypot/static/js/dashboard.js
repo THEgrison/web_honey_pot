@@ -172,7 +172,7 @@ function resetButtonNode(id) {
 async function loadDashboard() {
   await loadFingerprintPresets();
   const fingerprintUrl = buildFingerprintingUrl(currentFingerprintFilters);
-  const [overview, topUA, behavior, advanced, robots, families, recurring, pathMap, realtime, fingerprinting] = await Promise.all([
+  const [overview, topUA, behavior, advanced, robots, families, recurring, pathMap, realtime, fingerprinting, sessions, kpiV3, drift, anomalies] = await Promise.all([
     getJson('/api/stats/overview'),
     getJson('/api/stats/top-user-agents?limit=20'),
     getJson('/api/stats/behavior'),
@@ -183,6 +183,10 @@ async function loadDashboard() {
     getJson('/api/stats/path-map'),
     getJson('/api/stats/realtime?window=300'),
     getJson(fingerprintUrl),
+    getJson('/api/stats/sessions'),
+    getJson('/api/stats/kpi-v3'),
+    getJson('/api/stats/drift'),
+    getJson('/api/stats/anomalies'),
   ]);
 
   setText('total-visits', overview.total_visits);
@@ -200,6 +204,11 @@ async function loadDashboard() {
   setText('realtime', realtime);
   applyFingerprintingData(fingerprinting);
 
+  setText('sessions-summary', sessions || {});
+  setText('kpi-v3', kpiV3 || {});
+  setText('drift', drift || {});
+  setText('anomalies', anomalies || {});
+
   setText('active-bots', realtime.active_bots);
   setText('active-visitors', realtime.active_visitors);
   setText('active-js', realtime.active_visitors_with_js);
@@ -207,6 +216,31 @@ async function loadDashboard() {
   setText('suspicious-top', realtime.suspicious?.top_suspicious_paths_24h || []);
 
   drawGraph(pathMap.edges || []);
+}
+
+function buildV3ExportUrl(path) {
+  return path;
+}
+
+function triggerMlExport(format) {
+  const url = `/api/export/ml-dataset/${format}`;
+  window.location.href = url;
+}
+
+function triggerBotIpsExport(format) {
+  const url = `/api/export/bot-ips/${format}`;
+  window.location.href = url;
+}
+
+async function runAlerts() {
+  try {
+    const res = await fetch('/api/alerts/run', { method: 'POST' });
+    const data = await res.json();
+    alert(`Alertes lancees: ${data.ok ? 'OK' : JSON.stringify(data)}`);
+  } catch (err) {
+    console.error('failed to run alerts', err);
+    alert('Echec lancement alertes');
+  }
 }
 
 function buildFingerprintingUrl(filters) {
@@ -504,6 +538,29 @@ document.getElementById('fingerprint-export-json')?.addEventListener('click', ()
 
 document.getElementById('fingerprint-export-csv')?.addEventListener('click', () => {
   triggerFingerprintExport('csv');
+});
+
+document.getElementById('export-ml-json')?.addEventListener('click', () => {
+  triggerMlExport('json');
+});
+
+document.getElementById('export-ml-csv')?.addEventListener('click', () => {
+  triggerMlExport('csv');
+});
+
+document.getElementById('export-botips-json')?.addEventListener('click', () => {
+  triggerBotIpsExport('json');
+});
+
+document.getElementById('export-botips-csv')?.addEventListener('click', () => {
+  triggerBotIpsExport('csv');
+});
+
+document.getElementById('run-alerts-btn')?.addEventListener('click', async () => {
+  if (!confirm('Lancer les regles d\'alertes maintenant ?')) {
+    return;
+  }
+  await runAlerts();
 });
 
 loadDashboard().catch((err) => {

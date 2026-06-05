@@ -57,19 +57,26 @@ EXPORT_DAYS=30 python scripts/export_daily_archive.py
 
 ## Automatisation GitHub (release quotidienne)
 
-Workflow ajoute: `.github/workflows/daily-release.yml`
+Script: `scripts/publish_daily_release.py`
 
-- Frequence: tous les jours (UTC) + lancement manuel (`workflow_dispatch`).
 - Tag: `data-YYYY-MM-DD`
 - Titre release: `Data YYYY-MM-DD`
-- Asset upload: dernier fichier `reports/daily_reports_*d_*.zip`
+- Archive publiee: `reports/daily_reports_*d_*.zip`
 
-Prerequis repository GitHub:
+Variables requises:
 
-- Actions activees.
-- Permission workflow: `contents: write` (deja configuree dans le workflow).
+- `GITHUB_REPOSITORY=owner/repo`
+- `RELEASE_TOKEN` ou la variable definie via `--token-env`
 
-Le workflow utilise `secrets.GITHUB_TOKEN` par defaut. Si tu veux utiliser un token GitHub App specifique, remplace le champ `token` du step release.
+Exemple:
+
+```bash
+export GITHUB_REPOSITORY=owner/repo
+export RELEASE_TOKEN=ghp_xxx
+python scripts/publish_daily_release.py --days 30
+```
+
+Le script genere d'abord l'archive puis cree ou met a jour la release GitHub avec le meme tag et le meme titre que la date UTC du jour.
 
 ## Documentation
 

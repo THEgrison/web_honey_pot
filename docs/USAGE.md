@@ -92,4 +92,10 @@ Note IP bots:
 - Rapport du jour: `python scripts/generate_daily_report.py`
 - Rapports N jours + ZIP: `python scripts/export_daily_archive.py`
 
+## Publication de release
+
+- Release datee avec upload du ZIP: `python scripts/publish_daily_release.py`
+- Variables attendues: `GITHUB_REPOSITORY` et `RELEASE_TOKEN`
+- Le script cree la release `data-YYYY-MM-DD` avec le titre `Data YYYY-MM-DD`
+
 Les rapports JSON et les archives ZIP sont generes dans `reports/`.
