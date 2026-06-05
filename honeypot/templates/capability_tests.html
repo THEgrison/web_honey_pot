@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %}Tests capacités{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="/cap/test.css">
+<script defer src="{{ url_for('static', filename='js/capabilities.js') }}"></script>
+{% endblock %}
+{% block content %}
+<section class="grid">
+  <article class="card">
+    <h1>Tests des capacités de navigation</h1>
+    <p id="js-status">JavaScript: en attente...</p>
+    <p class="css-ok">CSS chargé si texte vert.</p>
+    <img src="/cap/pixel.png" alt="pixel test" width="8" height="8">
+  </article>
+  <article class="card">
+    <h2>Cookies</h2>
+    <a href="/cap/cookie-check">Tester la gestion des cookies</a>
+  </article>
+  <article class="card">
+    <h2>Redirections</h2>
+    <a href="/cap/redirect-test">Tester la redirection 302</a>
+  </article>
+  <article class="card">
+    <h2>Liens relatifs / absolus</h2>
+    <a href="/cap/relative-base">Page de tests des liens</a>
+    <br>
+    <a href="{{ request.url_root }}reseau/circulaire/A">Lien absolu vers circulaire</a>
+  </article>
+</section>
+{% endblock %}

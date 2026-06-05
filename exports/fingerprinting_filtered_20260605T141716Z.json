@@ -1,0 +1,46 @@
+{
+  "window_days": 14,
+  "scoring": {
+    "depth_target": 20,
+    "coverage_target": 30,
+    "speed_fast_rpm": 80,
+    "depth_first_min_depth": 12,
+    "breadth_min_unique_pages": 25,
+    "breadth_max_depth": 8,
+    "iterative_revisit_threshold": 0.35,
+    "revisit_target": 0.15,
+    "revisit_sensitivity": 40.0,
+    "pace_good_min_sec": 0.5,
+    "pace_good_max_sec": 8.0,
+    "weight_depth": 20.0,
+    "weight_coverage": 20.0,
+    "weight_consult_robots": 10.0,
+    "weight_respect_robots": 10.0,
+    "weight_consult_sitemap": 5.0,
+    "weight_js_capable": 20.0,
+    "weight_cookies_capable": 10.0,
+    "weight_pace_good": 15.0,
+    "weight_pace_too_fast": 5.0,
+    "weight_pace_slow": 10.0,
+    "weight_pace_neutral": 8.0,
+    "weight_revisit": 10.0
+  },
+  "filters": {
+    "category": "ai_bot",
+    "js_capable": true,
+    "min_score": 10.0
+  },
+  "summary": {
+    "total_profiles": 0,
+    "avg_sophistication_score": 0.0,
+    "strategy_distribution": {},
+    "robots_respect_rate": 0.0,
+    "avg_depth": 0.0,
+    "avg_requests_per_minute": 0.0,
+    "avg_revisit_rate": 0.0,
+    "js_capable_profiles": 0,
+    "cookies_capable_profiles": 0
+  },
+  "top_profiles": [],
+  "profiles": []
+}

@@ -1,0 +1,165 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard Honeypot{% endblock %}
+{% block head %}
+<script defer src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+<script defer src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+{% endblock %}
+{% block content %}
+<section class="toolbar">
+  <a class="btn" href="/export/json">Exporter JSON</a>
+  <a class="btn" href="/export/csv">Exporter CSV</a>
+  <button id="daily-report-btn" class="btn">Générer rapport quotidien</button>
+  <a class="btn" href="/dashboard/logout">Déconnexion</a>
+</section>
+
+<section class="grid">
+  <article class="card"><h2>Visites totales</h2><p id="total-visits">-</p></article>
+  <article class="card"><h2>Visiteurs uniques</h2><p id="unique-visitors">-</p></article>
+  <article class="card"><h2>User-Agents uniques</h2><p id="unique-ua">-</p></article>
+  <article class="card"><h2>JS execution rate</h2><p id="js-rate">-</p></article>
+</section>
+
+<section class="grid">
+  <article class="card"><h2>Bots actifs (temps reel)</h2><p id="active-bots">-</p></article>
+  <article class="card"><h2>Visiteurs actifs</h2><p id="active-visitors">-</p></article>
+  <article class="card"><h2>JS actif (fenetre)</h2><p id="active-js">-</p></article>
+  <article class="card"><h2>Tentatives suspectes (fenetre)</h2><p id="suspicious-window">-</p></article>
+</section>
+
+<section class="grid">
+  <article class="card">
+    <h2>Répartition catégories</h2>
+    <pre id="categories"></pre>
+  </article>
+  <article class="card">
+    <h2>Top User-Agent</h2>
+    <pre id="top-ua"></pre>
+  </article>
+</section>
+
+<section class="grid">
+  <article class="card">
+    <h2>Statistiques</h2>
+    <pre id="behavior"></pre>
+  </article>
+  <article class="card">
+    <h2>robots.txt / sitemap</h2>
+    <pre id="robots"></pre>
+  </article>
+</section>
+
+<section class="grid">
+  <article class="card">
+    <h2>Metriques avancees</h2>
+    <pre id="advanced"></pre>
+  </article>
+  <article class="card">
+    <h2>Activite temps reel</h2>
+    <pre id="realtime"></pre>
+  </article>
+</section>
+
+<section class="grid">
+  <article class="card">
+    <h2>Behavioural Fingerprinting (resume)</h2>
+    <form id="fingerprint-filters" class="filters-grid">
+      <label>Fenetre (jours)
+        <input type="number" name="days" min="1" max="365" value="30">
+      </label>
+      <label>Categorie
+        <select name="category">
+          <option value="all">Toutes</option>
+          <option value="search_engine">Moteur recherche</option>
+          <option value="ai_bot">Bot IA</option>
+          <option value="scraper">Scraper</option>
+          <option value="human_browser">Humain</option>
+          <option value="unknown_bot">Inconnu</option>
+        </select>
+      </label>
+      <label>Strategie
+        <select name="strategy">
+          <option value="all">Toutes</option>
+          <option value="depth_first">Depth first</option>
+          <option value="breadth_first">Breadth first</option>
+          <option value="iterative_revisit">Iterative revisit</option>
+          <option value="high_speed_scan">High speed scan</option>
+          <option value="mixed_walk">Mixed walk</option>
+          <option value="insufficient_data">Insufficient data</option>
+        </select>
+      </label>
+      <label>Score min
+        <input type="number" name="min_score" min="0" max="100" step="0.1" placeholder="0">
+      </label>
+      <label>Score max
+        <input type="number" name="max_score" min="0" max="100" step="0.1" placeholder="100">
+      </label>
+      <label>Profondeur min
+        <input type="number" name="min_depth" min="0" step="1" placeholder="0">
+      </label>
+      <label>RPM min
+        <input type="number" name="min_rpm" min="0" step="0.1" placeholder="0">
+      </label>
+      <label>RPM max
+        <input type="number" name="max_rpm" min="0" step="0.1" placeholder="1000">
+      </label>
+      <label>JS
+        <select name="js">
+          <option value="all">Tous</option>
+          <option value="true">Oui</option>
+          <option value="false">Non</option>
+        </select>
+      </label>
+      <label>Cookies
+        <select name="cookies">
+          <option value="all">Tous</option>
+          <option value="true">Oui</option>
+          <option value="false">Non</option>
+        </select>
+      </label>
+      <label>Preset charge
+        <select id="fingerprint-preset-select" name="preset_select">
+          <option value="">Aucun</option>
+        </select>
+      </label>
+      <label>Nouveau preset
+        <input type="text" id="fingerprint-preset-name" placeholder="Ex: Bots IA agressifs">
+      </label>
+      <div class="filters-actions">
+        <button type="submit" class="btn">Appliquer filtres</button>
+        <button type="button" class="btn" id="fingerprint-reset">Reset</button>
+        <button type="button" class="btn" id="fingerprint-save-preset">Sauver preset</button>
+        <button type="button" class="btn" id="fingerprint-delete-preset">Supprimer preset</button>
+      </div>
+      <div class="filters-actions">
+        <button type="button" class="btn" id="fingerprint-export-json">Exporter JSON filtre</button>
+        <button type="button" class="btn" id="fingerprint-export-csv">Exporter CSV filtre</button>
+      </div>
+    </form>
+    <pre id="fingerprint-summary"></pre>
+  </article>
+  <article class="card">
+    <h2>Profils les plus sophistiques</h2>
+    <pre id="fingerprint-top"></pre>
+  </article>
+</section>
+
+<section class="card">
+  <h2>Tentatives admin/scripts (24h)</h2>
+  <pre id="suspicious-top"></pre>
+</section>
+
+<section class="card">
+  <h2>Comparaison familles de crawlers</h2>
+  <pre id="families"></pre>
+</section>
+
+<section class="card">
+  <h2>Comportements récurrents</h2>
+  <pre id="recurring"></pre>
+</section>
+
+<section class="card">
+  <h2>Cartographie des parcours (graphe interactif)</h2>
+  <svg id="path-graph" width="100%" height="460"></svg>
+</section>
+{% endblock %}

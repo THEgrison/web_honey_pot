@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Connexion Dashboard{% endblock %}
+{% block content %}
+<article class="card login-card">
+  <h1>Connexion Dashboard</h1>
+  {% if error %}<p class="error">{{ error }}</p>{% endif %}
+  <form method="post" action="/dashboard/login">
+    <label>Nom d'utilisateur</label>
+    <input type="text" name="username" required>
+    <label>Mot de passe</label>
+    <input type="password" name="password" required>
+    <button type="submit">Se connecter</button>
+  </form>
+</article>
+{% endblock %}

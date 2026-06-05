@@ -1,0 +1,17 @@
+2026-06-05 16:09:20,679 ERROR Exception on /api/stats/fingerprinting [GET]
+Traceback (most recent call last):
+  File "/Users/a.esnault/Documents/test_honey_pot_web/.venv/lib/python3.9/site-packages/flask/app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/a.esnault/Documents/test_honey_pot_web/.venv/lib/python3.9/site-packages/flask/app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/a.esnault/Documents/test_honey_pot_web/.venv/lib/python3.9/site-packages/flask/app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/a.esnault/Documents/test_honey_pot_web/.venv/lib/python3.9/site-packages/flask/app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "/Users/a.esnault/Documents/test_honey_pot_web/honeypot/security.py", line 41, in wrapped
+    return view_func(*args, **kwargs)
+  File "/Users/a.esnault/Documents/test_honey_pot_web/honeypot/app.py", line 260, in api_fingerprinting
+    behavioural_fingerprinting(
+  File "/Users/a.esnault/Documents/test_honey_pot_web/honeypot/fingerprinting.py", line 80, in behavioural_fingerprinting
+    sum(item["sophistication_score"] for item in trimmed) / len(trimmed), 2
+ZeroDivisionError: division by zero

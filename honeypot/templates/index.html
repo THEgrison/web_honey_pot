@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %}Accueil - Honeypot{% endblock %}
+{% block content %}
+<section class="hero">
+  <h1>Honeypot défensif d'observation des crawlers</h1>
+  <p>Ce site mesure passivement les parcours des robots et visiteurs, sans blocage ni perturbation.</p>
+</section>
+<section class="grid">
+  <article class="card">
+    <h2>Réseaux de test</h2>
+    <ul>
+      <li><a href="/reseau/circulaire/A">Réseau circulaire (A-E)</a></li>
+      <li><a href="/reseau/arbre/root">Réseau arborescent</a></li>
+      <li><a href="/reseau/profondeur/1">Réseau profond (1..100)</a></li>
+      <li><a href="/reseau/aleatoire/1">Réseau aléatoire</a></li>
+    </ul>
+  </article>
+  <article class="card">
+    <h2>Consignes robots</h2>
+    <ul>
+      <li><a href="/robots.txt">robots.txt</a></li>
+      <li><a href="/sitemap.xml">sitemap.xml</a></li>
+    </ul>
+  </article>
+  <article class="card">
+    <h2>Mesure des capacités</h2>
+    <p>Détection JS, cookies, images, CSS, redirections, liens relatifs/absolus.</p>
+    <a class="btn" href="/cap/tests">Lancer les tests</a>
+  </article>
+</section>
+{% endblock %}

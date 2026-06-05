@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}Liens relatifs{% endblock %}
+{% block content %}
+<article class="card">
+  <h1>Test des liens relatifs</h1>
+  <ul>
+    <li><a href="../tests">Lien relatif vers /cap/tests</a></li>
+    <li><a href="../../reseau/profondeur/1">Lien relatif profond</a></li>
+    <li><a href="/reseau/arbre/root">Lien absolu interne</a></li>
+  </ul>
+</article>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}Test cookies{% endblock %}
+{% block content %}
+<article class="card">
+  <h1>Résultat cookie</h1>
+  {% if has_cookie %}
+  <p>Cookie détecté: oui.</p>
+  {% else %}
+  <p>Cookie détecté: non (ou première visite).</p>
+  {% endif %}
+  <p><a href="/cap/cookie-check">Recharger le test</a></p>
+</article>
+{% endblock %}

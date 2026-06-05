@@ -1,0 +1,3 @@
+session_id,visitor_key,category,hits,unique_pages,depth_max,duration_sec,avg_gap_sec,revisit_rate,robots_seen,sitemap_seen,disallowed_seen,network_scope,user_agent
+4a0b44dff90ab03d3701320bceea5ba9:1780667117,4a0b44dff90ab03d3701320bceea5ba9,human_browser,68,15,3,848.879,12.67,0.7794,0,0,0,unknown,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36"
+103d042230e64e9c8919f25573b5e1b3:1780666579,103d042230e64e9c8919f25573b5e1b3,human_browser,32,22,4,4063.38,131.077,0.3125,1,0,0,private,Werkzeug/3.1.8

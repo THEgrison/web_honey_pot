@@ -1,0 +1,39 @@
+{
+  "generated_at_utc": "2026-06-05T14:44:03.084242+00:00",
+  "days": 1,
+  "session_count": 2,
+  "rows": [
+    {
+      "session_id": "4a0b44dff90ab03d3701320bceea5ba9:1780667117",
+      "visitor_key": "4a0b44dff90ab03d3701320bceea5ba9",
+      "category": "human_browser",
+      "hits": 69,
+      "unique_pages": 15,
+      "depth_max": 3,
+      "duration_sec": 858.874,
+      "avg_gap_sec": 12.63,
+      "revisit_rate": 0.7826,
+      "robots_seen": 0,
+      "sitemap_seen": 0,
+      "disallowed_seen": 0,
+      "network_scope": "unknown",
+      "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36"
+    },
+    {
+      "session_id": "103d042230e64e9c8919f25573b5e1b3:1780666579",
+      "visitor_key": "103d042230e64e9c8919f25573b5e1b3",
+      "category": "human_browser",
+      "hits": 31,
+      "unique_pages": 21,
+      "depth_max": 4,
+      "duration_sec": 4063.373,
+      "avg_gap_sec": 135.446,
+      "revisit_rate": 0.3226,
+      "robots_seen": 1,
+      "sitemap_seen": 0,
+      "disallowed_seen": 0,
+      "network_scope": "private",
+      "user_agent": "Werkzeug/3.1.8"
+    }
+  ]
+}
