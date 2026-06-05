@@ -94,6 +94,6 @@ Le script genere d'abord l'archive puis cree ou met a jour la release GitHub ave
 
 ## Identifiants par défaut :
 
-- ```/honeypot/config.py```
+- ```.env```
 - admin
 - change-me
